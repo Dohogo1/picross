@@ -45,14 +45,18 @@ public class PicrossApp {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Picross");
         frame.setVisible(true);
-        frame.setSize(500,500);
+        frame.setSize(700,700);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
         Grid solution = new Grid(GRID_SIZE);
         solution.randomizeGrid();
         frame.add(solution, BorderLayout.CENTER);
-        HintPanel hint = new HintPanel(solution,GRID_SIZE);
 
+        HintPanel colHint = new HintPanel(solution,GRID_SIZE, false);
+        HintPanel rowHint = new HintPanel(solution,GRID_SIZE, true);
+        frame.add(colHint,BorderLayout.NORTH);
+        frame.add(rowHint,BorderLayout.WEST);
+        System.out.println(solution.toString());
     }
 }

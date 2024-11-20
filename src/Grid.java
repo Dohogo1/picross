@@ -15,7 +15,7 @@ public class Grid extends JPanel {
 
         for (int row = 0; row < gridSize; row++) {
             for (int col = 0; col < gridSize; col++) {
-                cells[row][col] = new Cell(row, col);
+                cells[row][col] = new Cell();
                 add(cells[row][col]);
 
                 int finalRow = row;
@@ -84,4 +84,21 @@ public class Grid extends JPanel {
         return colCells;
     }
 
+    @Override
+    public String toString(){
+        String str = "";
+        for (int row = 0; row < gridSize; row++) {
+            str = str + "\n";
+            for (int col = 0; col < gridSize; col++) {
+                if(cells[row][col].isFilled()) {
+                    str = str + "1 ";
+                }
+                else{
+                    str = str + "0 ";
+                }
+            }
+
+        }
+        return str;
+    }
 }

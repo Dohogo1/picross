@@ -1,15 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Cell extends JLabel {
+public class Cell extends JButton {
     private boolean filled;
     private boolean marked;
-    private final int row;
-    private final int col;
 
-    public Cell(int row, int col) {
-        this.row = row;
-        this.col = col;
+    public Cell() {
         this.filled = false;
         this.marked = false;
         setBackground(Color.WHITE);
@@ -38,9 +34,9 @@ public class Cell extends JLabel {
         if (!marked) {
             marked = true;
             filled = false;
-            Image image = Toolkit.getDefaultToolkit().getImage(getClass().getResource("Adolf.png"));
+            //Image image = Toolkit.getDefaultToolkit().getImage(getClass().getResource("Adolf.png"));
             setBackground(Color.WHITE);
-            setIcon(new ImageIcon(image));
+            setLabel("X");
             repaint();
         }
         else{
