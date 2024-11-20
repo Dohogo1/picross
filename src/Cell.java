@@ -11,6 +11,7 @@ public class Cell extends JButton {
         setBackground(Color.WHITE);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         setOpaque(true);
+        setFont(new Font("Courier", Font.PLAIN, 50));
     }
 
     public void fill() {
@@ -18,36 +19,34 @@ public class Cell extends JButton {
             filled = true;
             marked = false;
             setBackground(Color.BLACK);
-            setIcon(null);
-            repaint();
+            setText(null);
         }
         else{
             filled = false;
             setBackground(Color.WHITE);
-            repaint();
         }
     }
-
-
 
     public void mark() {
         if (!marked) {
             marked = true;
             filled = false;
-            //Image image = Toolkit.getDefaultToolkit().getImage(getClass().getResource("Adolf.png"));
             setBackground(Color.WHITE);
-            setLabel("X");
-            repaint();
+            setText("X");
         }
         else{
             marked = false;
             setIcon(null);
             setBackground(Color.WHITE);
-            repaint();
+            setText(null);
         }
     }
 
     public boolean isFilled() {
         return filled;
+    }
+
+    public boolean isMarked() {
+        return marked;
     }
 }

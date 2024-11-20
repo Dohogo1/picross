@@ -11,8 +11,8 @@ public class Grid extends JPanel {
         this.gridSize = gridSize;
         this.cells = new Cell[gridSize][gridSize];
         setLayout(new GridLayout(gridSize, gridSize));
-        setPreferredSize(new Dimension(gridSize * 50, gridSize * 50));
-
+        setPreferredSize(new Dimension(gridSize * 30, gridSize * 30));
+        this.setMinimumSize(new Dimension(gridSize * 30, gridSize * 30));
         for (int row = 0; row < gridSize; row++) {
             for (int col = 0; col < gridSize; col++) {
                 cells[row][col] = new Cell();
@@ -97,8 +97,11 @@ public class Grid extends JPanel {
                     str = str + "0 ";
                 }
             }
-
         }
         return str;
     }
+
+
+
+
 }

@@ -13,28 +13,32 @@ public class HintPanel extends JPanel {
         this.gridSize = gridSize;
         this.solution = solution;
         this.horizontal = horizontal;
+        setSize(gridSize*50, gridSize);
         hint = getHints();
-        System.out.println(hint);
         if (horizontal) {
             setLayout(new GridLayout(gridSize, 1));
             for (int i = 0; i < gridSize; i++) {
                 JLabel label = new JLabel(formatHint(hint.get(i)));
-              //  label.setHorizontalAlignment(JLabel.EAST);
+                label.setHorizontalAlignment(JLabel.RIGHT);
+                label.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
                 label.setVerticalAlignment(JLabel.CENTER);
                 add(label);
             }
+            setSize(100,700);
         } else {
             setLayout(new GridLayout(1, gridSize ));
-            //add(new JLabel(""));
+            //JLabel space = new JLabel(" ");
+            //add(space);
             for (int i = 0; i < gridSize; i++) {
                 JLabel label = new JLabel(formatHint(hint.get(i)));
+                label.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
                 label.setHorizontalAlignment(JLabel.CENTER);
                 label.setVerticalAlignment(JLabel.BOTTOM);
                 add(label);
-
             }
+            setSize(700,100);
         }
-        setSize(500,500);
+
     }
 
     private List<List<Integer>> getHints() {
@@ -62,17 +66,13 @@ public class HintPanel extends JPanel {
     }
 
     private String formatHint(List<Integer> list) {
-       // String string = "";
-        StringBuilder sb = new StringBuilder();
-
+        StringBuilder sb = new StringBuilder("<html>");
         for (int i = 0; i < list.size(); i++) {
             sb.append(list.get(i)).append(" ");
             if(!horizontal) {
-                sb.append("\n");
+                sb.append("<BR>");
             }
         }
-
         return sb.toString();
     }
-
 }
