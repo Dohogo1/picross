@@ -14,7 +14,7 @@ public class HintPanel extends JPanel {
         this.solution = solution;
         this.horizontal = horizontal;
         setSize(gridSize*50, gridSize);
-        hint = getHints();
+        hint = makeHints();
         if (horizontal) {
             setLayout(new GridLayout(gridSize, 1));
             for (int i = 0; i < gridSize; i++) {
@@ -27,8 +27,6 @@ public class HintPanel extends JPanel {
             setSize(100,700);
         } else {
             setLayout(new GridLayout(1, gridSize ));
-            //JLabel space = new JLabel(" ");
-            //add(space);
             for (int i = 0; i < gridSize; i++) {
                 JLabel label = new JLabel(formatHint(hint.get(i)));
                 label.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
@@ -41,7 +39,7 @@ public class HintPanel extends JPanel {
 
     }
 
-    private List<List<Integer>> getHints() {
+    private List<List<Integer>> makeHints() {
         List<List<Integer>> hints = new LinkedList<>();
         int num = 0;
         for (int i = 0; i < gridSize; i++) {
@@ -67,12 +65,18 @@ public class HintPanel extends JPanel {
 
     private String formatHint(List<Integer> list) {
         StringBuilder sb = new StringBuilder("<html>");
-        for (int i = 0; i < list.size(); i++) {
-            sb.append(list.get(i)).append(" ");
-            if(!horizontal) {
+        for (Integer integer : list) {
+            sb.append(integer).append(" ");
+            if (!horizontal) {
                 sb.append("<BR>");
             }
         }
         return sb.toString();
     }
+
+    public List<List<Integer>> getHints() {
+        return hint;
+    }
+
+
 }

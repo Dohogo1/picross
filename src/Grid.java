@@ -7,6 +7,7 @@ public class Grid extends JPanel {
     private Cell[][] cells;
     private int gridSize;
 
+
     public Grid(int gridSize) {
         this.gridSize = gridSize;
         this.cells = new Cell[gridSize][gridSize];
@@ -34,29 +35,6 @@ public class Grid extends JPanel {
 
             }
         }
-
-
-    }
-
-    public boolean[][] getUserGrid() {
-        boolean[][] userGrid = new boolean[gridSize][gridSize];
-        for (int row = 0; row < gridSize; row++) {
-            for (int col = 0; col < gridSize; col++) {
-                userGrid[row][col] = cells[row][col].isFilled();
-            }
-        }
-        return userGrid;
-    }
-
-    public static boolean checkSolution(boolean[][] userGrid, int[][] solution) {
-        for (int row = 0; row < solution.length; row++) {
-            for (int col = 0; col < solution[row].length; col++) {
-                if (userGrid[row][col] != (solution[row][col] == 1)) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     public void randomizeGrid() {
@@ -71,9 +49,7 @@ public class Grid extends JPanel {
 
     public Cell[] getRow(int row) {
         Cell[] rowCells = new Cell[gridSize];
-        for (int col = 0; col < gridSize; col++) {
-            rowCells[col] = cells[row][col];
-        }
+        System.arraycopy(cells[row], 0, rowCells, 0, gridSize);
         return rowCells;
     }
     public Cell[] getCol(int col) {
@@ -86,19 +62,19 @@ public class Grid extends JPanel {
 
     @Override
     public String toString(){
-        String str = "";
+        StringBuilder str = new StringBuilder();
         for (int row = 0; row < gridSize; row++) {
-            str = str + "\n";
+            str.append("\n");
             for (int col = 0; col < gridSize; col++) {
                 if(cells[row][col].isFilled()) {
-                    str = str + "1 ";
+                    str.append("1 ");
                 }
                 else{
-                    str = str + "0 ";
+                    str.append("0 ");
                 }
             }
         }
-        return str;
+        return str.toString();
     }
 
 
