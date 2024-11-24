@@ -15,10 +15,8 @@ public class Grid extends JPanel {
         for (int row = 0; row < gridSize; row++) {
             for (int col = 0; col < gridSize; col++) {
                 cells[row][col] = new Cell();
+                cells[row][col].setListener();
                 add(cells[row][col]);
-
-//                500/gridsize
-                cells[row][col].setFont(new Font("Courier", Font.PLAIN, 25));
             }
         }
     }
@@ -62,4 +60,13 @@ public class Grid extends JPanel {
         }
         return str.toString();
     }
+
+    public void setCells(){
+        for (int row = 0; row < gridSize; row++) {
+            for (int col = 0; col < gridSize; col++) {
+                cells[row][col].setListener();
+            }
+        }
+    }
+
 }

@@ -1,36 +1,76 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class PicrossApp extends JFrame {
+/**
+ *
+ */
+public class PicrossApp extends JFrame implements Runnable {
     static int gridSize = 5;
     Grid input;
     Grid solution;
     HintPanel colHint;
     HintPanel rowHint;
 
+    /**
+     *  Constructor that creates an instance with given solution and input grid
+     * @param input
+     * @param solution
+     */
+    public PicrossApp(Grid input, Grid solution) {
+        this.input = input;
+        this.solution = solution;
+        gridSize = input.getRow(0).length;
+        input.setCells();
+        initFrame();
+    }
+
+    /**
+     *  Constructor that creates an instance with random solution and a blank input grid
+     */
     public PicrossApp() {
+        solution = new Grid(gridSize);
+        solution.randomizeGrid();
+        input = new Grid(gridSize);
+        initFrame();
+    }
+
+    /**
+     *  Initialises the frame
+     */
+    private void initFrame() {
         setTitle("Picross");
-        setVisible(true);
         setSize(380+32*gridSize,220+32*gridSize);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
         setLocationRelativeTo(null);
         getContentPane().setBackground(new Color(220,255,220));
-        setResizable(true);
-
-        JPanel panel = new JPanel();
-        panel.setVisible(true);
-        panel.setLayout(null);
+        setResizable(false);
 
         JButton saveButton = new JButton("Save");
+        saveButton.addActionListener(e -> {
+            Saver.save("savefile", input, solution);
+        });
         JButton loadButton = new JButton("Load");
+        loadButton.addActionListener(e -> {
+            Grid[] grids = Saver.load("savefile");
+            if(grids == null) {return;}
+            input = grids[0];
+            solution = grids[1];
+            dispose(); // Close the current JFrame
+            new PicrossApp(input,solution).setVisible(true); // Create a new instance of the application
+        });
         JButton newButton = new JButton("New Game");
         newButton.addActionListener(e -> {
             dispose(); // Close the current JFrame
-            new PicrossApp(); // Create a new instance of the application
-        });
+            new PicrossApp().setVisible(true); // Create a new instance of the application
 
+        });
         TextField mistakesTextArea = new TextField("Mistakes: ");
+
+        mistakesTextArea.setEditable(false);
+        mistakesTextArea.setBackground(Color.WHITE);
+        mistakesTextArea.setFont(new Font("",Font.PLAIN,15));
+        mistakesTextArea.repaint();
 
         JButton solveButton = new JButton("Show Solution");
         solveButton.addActionListener(e -> {
@@ -41,6 +81,7 @@ public class PicrossApp extends JFrame {
         });
 
         JSpinner sizeSpinner = new JSpinner(new SpinnerNumberModel(gridSize,5,25,1));
+
         sizeSpinner.addChangeListener(e -> {
             gridSize = (int)sizeSpinner.getValue();
         });
@@ -54,18 +95,8 @@ public class PicrossApp extends JFrame {
         sizeSpinner.getComponent(1).setBackground(purple);
         sizeSpinner.getComponent(0).setBackground(purple);
 
-        solution = new Grid(gridSize);
-        solution.randomizeGrid();
-        input = new Grid(gridSize);
-
         colHint = new HintPanel(solution, gridSize, false);
         rowHint = new HintPanel(solution, gridSize, true);
-
-       // TextField mistakesTextArea = new TextField("Number of mistakes: "+mistakes);
-        mistakesTextArea.setEditable(false);
-        mistakesTextArea.setBackground(Color.WHITE);
-        mistakesTextArea.setFont(new Font("",Font.PLAIN,15));
-        mistakesTextArea.repaint();
 
         input.setBounds(333, 150, 32*gridSize, 32*gridSize);
         colHint.setBounds(333, 0, 32*gridSize, 150);
@@ -86,16 +117,24 @@ public class PicrossApp extends JFrame {
         add(saveButton);
         add(sizeSpinner);
         add(mistakesTextArea);
-
-        System.out.println(solution.toString());
     }
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
-        PicrossApp app = new PicrossApp();
+        EventQueue.invokeLater(new PicrossApp());
     }
 
+    /**
+     *  Check if the input is correct, if not returns the number of differences with solution
+     * @param input
+     * @param solution
+     * @return the number of differences between input and solution
+     */
     private int solve(Grid input, Grid solution) {
-        int mistakes = 0;
+        int mistakes = 0; // Number of mistakes found
         HintPanel inputColHint = new HintPanel(input, gridSize,false);
         HintPanel inputRowHint = new HintPanel(input, gridSize,true);
 
@@ -121,12 +160,17 @@ public class PicrossApp extends JFrame {
                 // If the input cell is filled but the solution cell is not
                 else if (inputCell.isFilled() && !solutionCell.isFilled()) {
                     inputCell.setText("X"); // Mark as incorrect
-                    inputCell.setForeground(new Color(170,0,130));
-                    inputCell.setBackground(Color.WHITE);
+                    inputCell.setForeground(new Color(170,0,130)); // Color it wrong
+                    inputCell.setBackground(Color.WHITE); // Clear background
                     mistakes++;
                 }
             }
         }
         return mistakes;
+    }
+
+    @Override
+    public void run() {
+        setVisible(true);
     }
 }

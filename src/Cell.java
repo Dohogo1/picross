@@ -3,17 +3,31 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ *
+ */
 public class Cell extends JButton {
     private boolean filled;
     private boolean marked;
 
+    /**
+     *
+     */
     public Cell() {
         this.filled = false;
         this.marked = false;
         setBackground(Color.WHITE);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         setOpaque(true);
-        addMouseListener(new MouseAdapter() {
+        setFont(new Font("Courier", Font.PLAIN, 25));
+
+    }
+
+    /**
+     *
+     */
+    public void setListener(){
+        addMouseListener(new MouseAdapter()  {
             @Override
             public void mousePressed(MouseEvent e) {
                 if(e.getButton() == MouseEvent.BUTTON1) {
@@ -23,10 +37,13 @@ public class Cell extends JButton {
                     mark();
                 }
             }
-        });
 
+        });
     }
 
+    /**
+     *
+     */
     public void fill() {
         if (!filled) {
             filled = true;
@@ -40,6 +57,9 @@ public class Cell extends JButton {
         }
     }
 
+    /**
+     *
+     */
     public void mark() {
         if (!marked) {
             marked = true;
@@ -55,10 +75,18 @@ public class Cell extends JButton {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isFilled() {
         return filled;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isMarked() {
         return marked;
     }

@@ -3,12 +3,21 @@ import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ *
+ */
 public class HintPanel extends JPanel {
     private List<List<Integer>> hint;
     int gridSize;
     Grid solution;
     boolean horizontal;
 
+    /**
+     *
+     * @param solution
+     * @param gridSize
+     * @param horizontal
+     */
     public HintPanel(Grid solution, int gridSize, boolean horizontal) {
         this.gridSize = gridSize;
         this.solution = solution;
@@ -36,6 +45,10 @@ public class HintPanel extends JPanel {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     private List<List<Integer>> makeHints() {
         List<List<Integer>> hints = new LinkedList<>();
         int num = 0;
@@ -60,6 +73,11 @@ public class HintPanel extends JPanel {
         return hints;
     }
 
+    /**
+     *
+     * @param list
+     * @return
+     */
     private String formatHint(List<Integer> list) {
         StringBuilder sb = new StringBuilder("<html>");
         for (Integer integer : list) {
@@ -72,6 +90,10 @@ public class HintPanel extends JPanel {
         return sb.toString();
     }
 
+    /**
+     *
+     * @return
+     */
     public List<List<Integer>> getHints() {
         return hint;
     }
