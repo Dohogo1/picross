@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Cell extends JButton {
     private boolean filled;
@@ -11,7 +13,18 @@ public class Cell extends JButton {
         setBackground(Color.WHITE);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         setOpaque(true);
-        setFont(new Font("Courier", Font.PLAIN, 50));
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if(e.getButton() == MouseEvent.BUTTON1) {
+                    fill();
+                }
+                else if(e.getButton() == MouseEvent.BUTTON3) {
+                    mark();
+                }
+            }
+        });
+
     }
 
     public void fill() {

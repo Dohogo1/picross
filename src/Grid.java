@@ -12,27 +12,13 @@ public class Grid extends JPanel {
         this.gridSize = gridSize;
         this.cells = new Cell[gridSize][gridSize];
         setLayout(new GridLayout(gridSize, gridSize));
-        setPreferredSize(new Dimension(gridSize * 30, gridSize * 30));
-        this.setMinimumSize(new Dimension(gridSize * 30, gridSize * 30));
         for (int row = 0; row < gridSize; row++) {
             for (int col = 0; col < gridSize; col++) {
                 cells[row][col] = new Cell();
                 add(cells[row][col]);
 
-                int finalRow = row;
-                int finalCol = col;
-                cells[row][col].addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-                        if(e.getButton() == MouseEvent.BUTTON1) {
-                            cells[finalRow][finalCol].fill();
-                        }
-                        else if(e.getButton() == MouseEvent.BUTTON3) {
-                            cells[finalRow][finalCol].mark();
-                        }
-                    }
-                });
-
+//                500/gridsize
+                cells[row][col].setFont(new Font("Courier", Font.PLAIN, 25));
             }
         }
     }
@@ -76,8 +62,4 @@ public class Grid extends JPanel {
         }
         return str.toString();
     }
-
-
-
-
 }
