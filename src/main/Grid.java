@@ -1,7 +1,7 @@
+package main;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class Grid extends JPanel {
     private Cell[][] cells;
@@ -36,6 +36,7 @@ public class Grid extends JPanel {
         System.arraycopy(cells[row], 0, rowCells, 0, gridSize);
         return rowCells;
     }
+
     public Cell[] getCol(int col) {
         Cell[] colCells = new Cell[gridSize];
         for (int row = 0; row < gridSize; row++) {
@@ -69,4 +70,11 @@ public class Grid extends JPanel {
         }
     }
 
+    public int getGridSize() {
+        return gridSize;
+    }
+
+    public Cell getCell(int row, int col) {
+        return cells[row][col];
+    }
 }

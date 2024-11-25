@@ -1,3 +1,5 @@
+package main;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.LinkedList;
@@ -14,13 +16,12 @@ public class HintPanel extends JPanel {
 
     /**
      *
-     * @param solution
-     * @param gridSize
+     * @param grid
      * @param horizontal
      */
-    public HintPanel(Grid solution, int gridSize, boolean horizontal) {
-        this.gridSize = gridSize;
-        this.solution = solution;
+    public HintPanel(Grid grid, boolean horizontal) {
+        this.gridSize = grid.getGridSize();
+        this.solution = grid;
         this.horizontal = horizontal;
         setBackground(new Color(220,255,220));
         hint = makeHints();

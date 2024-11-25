@@ -1,3 +1,5 @@
+package main;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,6 +12,7 @@ public class PicrossApp extends JFrame implements Runnable {
     Grid solution;
     HintPanel colHint;
     HintPanel rowHint;
+    int cellSize = 20;
 
     /**
      *  Constructor that creates an instance with given solution and input grid
@@ -39,7 +42,7 @@ public class PicrossApp extends JFrame implements Runnable {
      */
     private void initFrame() {
         setTitle("Picross");
-        setSize(380+32*gridSize,220+32*gridSize);
+        setSize(380+cellSize*gridSize,220+cellSize*gridSize);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
         setLocationRelativeTo(null);
@@ -67,6 +70,7 @@ public class PicrossApp extends JFrame implements Runnable {
         });
         TextField mistakesTextArea = new TextField("Mistakes: ");
 
+
         mistakesTextArea.setEditable(false);
         mistakesTextArea.setBackground(Color.WHITE);
         mistakesTextArea.setFont(new Font("",Font.PLAIN,15));
@@ -74,7 +78,7 @@ public class PicrossApp extends JFrame implements Runnable {
 
         JButton solveButton = new JButton("Show Solution");
         solveButton.addActionListener(e -> {
-            int i = solve(input,solution);
+            int i = Solver.solve(input,solution);
             System.out.println("Number of mistakes: " + i);
             mistakesTextArea.setText("Mistakes: " + i + '/' + gridSize*gridSize);
             mistakesTextArea.repaint();
@@ -95,18 +99,18 @@ public class PicrossApp extends JFrame implements Runnable {
         sizeSpinner.getComponent(1).setBackground(purple);
         sizeSpinner.getComponent(0).setBackground(purple);
 
-        colHint = new HintPanel(solution, gridSize, false);
-        rowHint = new HintPanel(solution, gridSize, true);
+        colHint = new HintPanel(solution, false);
+        rowHint = new HintPanel(solution, true);
 
-        input.setBounds(333, 150, 32*gridSize, 32*gridSize);
-        colHint.setBounds(333, 0, 32*gridSize, 150);
-        rowHint.setBounds(180, 150, 150, 32*gridSize);
-        saveButton.setBounds(30, 10, 150, 50);
-        loadButton.setBounds(30, 70, 150, 50);
-        solveButton.setBounds(30, 130, 150, 50);
-        mistakesTextArea.setBounds(30, 190, 150, 30);
-        newButton.setBounds(30, 230, 150, 50);
-        sizeSpinner.setBounds(30, 290, 150, 30);
+        input.setBounds(333, 150, cellSize*gridSize, cellSize*gridSize);
+        colHint.setBounds(333, 0, cellSize*gridSize, 150);
+        rowHint.setBounds(180, 150, 150, cellSize*gridSize);
+        saveButton.setBounds(30, 10, 150, 45);
+        loadButton.setBounds(30, 60, 150, 45);
+        solveButton.setBounds(30, 110, 150, 45);
+        mistakesTextArea.setBounds(30, 160, 150, 25);
+        newButton.setBounds(30, 190, 150, 45);
+        sizeSpinner.setBounds(30, 240, 150, 25);
 
         add(input);
         add(colHint);
@@ -127,47 +131,6 @@ public class PicrossApp extends JFrame implements Runnable {
         EventQueue.invokeLater(new PicrossApp());
     }
 
-    /**
-     *  Check if the input is correct, if not returns the number of differences with solution
-     * @param input
-     * @param solution
-     * @return the number of differences between input and solution
-     */
-    private int solve(Grid input, Grid solution) {
-        int mistakes = 0; // Number of mistakes found
-        HintPanel inputColHint = new HintPanel(input, gridSize,false);
-        HintPanel inputRowHint = new HintPanel(input, gridSize,true);
-
-        // Checking if the hints had an other correct solution
-        if(inputColHint.getHints().equals(colHint.getHints()) && (inputRowHint.getHints().equals(rowHint.getHints()))){
-            return 0;
-        }
-        for (int row = 0; row < gridSize; row++) {
-            Cell[] inputRow = input.getRow(row);
-            Cell[] solutionRow = solution.getRow(row);
-
-            for (int col = 0; col < gridSize; col++) {
-                Cell inputCell = inputRow[col];
-                Cell solutionCell = solutionRow[col];
-
-                // If the input cell is not filled but the solution cell is
-                if (!inputCell.isFilled() && solutionCell.isFilled()) {
-                    if(inputCell.isMarked()) inputCell.mark();
-                    inputCell.setBackground(new Color(170,0,130)); // Highlight as missing
-                    mistakes++;
-                }
-
-                // If the input cell is filled but the solution cell is not
-                else if (inputCell.isFilled() && !solutionCell.isFilled()) {
-                    inputCell.setText("X"); // Mark as incorrect
-                    inputCell.setForeground(new Color(170,0,130)); // Color it wrong
-                    inputCell.setBackground(Color.WHITE); // Clear background
-                    mistakes++;
-                }
-            }
-        }
-        return mistakes;
-    }
 
     @Override
     public void run() {

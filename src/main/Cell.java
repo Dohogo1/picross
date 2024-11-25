@@ -1,3 +1,5 @@
+package main;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -19,7 +21,7 @@ public class Cell extends JButton {
         setBackground(Color.WHITE);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         setOpaque(true);
-        setFont(new Font("Courier", Font.PLAIN, 25));
+        setFont(new Font("Courier", Font.PLAIN, 20));
 
     }
 
@@ -37,7 +39,6 @@ public class Cell extends JButton {
                     mark();
                 }
             }
-
         });
     }
 
